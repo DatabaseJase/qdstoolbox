@@ -44,10 +44,10 @@ GO
 --														[Default: 1]
 --
 --		@RetainForcedMetrics		BIT				--	Flag to retain metrics for queries having forced plans (provided they are not orphan queries)
---														[Default: 0]
+--														[Default: 1]
 --
 --		@CleanStatsOnly				BIT				--	Changes the behavior of the clean process so only the stats will be cleaned, but not the plans, queries and queries' texts.
---														[Default: 0]
+--														[Default: 1]
 --
 --		@ReportAsText				BIT				--	Flag print out a report on the space released after the removal of the queries' information (in a text format). 
 --														[Default: 0]
@@ -130,11 +130,16 @@ GO
 -- Date: 2021.09.12
 -- Auth: Pablo Lozano (@sqlozano)
 -- Changes:	@CleanStale applies to all queries, and not just the ones belonging to an object
-
+--
 -- Date: 2021.11.28
 -- Auth: Pablo Lozano (@sqlozano)
 -- Changes:	New parameter @RetainForcedMetrics to retain metrics for queries having forced plans (provided they are not orphan queries)
 --			https://github.com/channeladvisor/qdstoolbox/issues/25
+--
+-- Date: 2204.08.07
+-- Auth: Jason Coombes (@DatabaseJase)
+-- Changes:	Corrected comments on parameters @RetainForcedMetrics and @CleanStatsOnly to show correct default value [Default: 1]
+--			https://github.com/channeladvisor/qdstoolbox/issues/37
 ----------------------------------------------------------------------------------
 CREATE OR ALTER PROCEDURE [dbo].[QDSCacheCleanup]
 (
