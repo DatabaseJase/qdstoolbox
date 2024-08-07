@@ -55,10 +55,10 @@
 --				Haven't been executed at least @MinExecutionCount times
 --				Haven't been executed in the last @Retention hours
 --
---		[Retention]				BIT				NOT NULL
+--		[Retention]			INT				NOT NULL
 --				Hours since the last execution of the query
 --
---		[MinExecutionCount]		BIT				NOT NULL
+--		[MinExecutionCount]		INT				NOT NULL
 --				Minimum number of executions NOT delete the query. If @MinExecutionCount = 0, ALL queries will be flagged for deletion
 --
 --		[CleanOrphan]			BIT				NOT NULL
@@ -80,6 +80,11 @@
 -- Auth: Pablo Lozano (@sqlozano)
 -- Changes:	New column to represent parameter @RetainForcedMetrics
 --			https://github.com/channeladvisor/qdstoolbox/issues/25
+--
+-- Date: 2024.08.07
+-- Auth: Jason Coombes (@DatabaseJase)
+-- Changes:	Corrected data type for columns [Retention] and [MinExecutionCount]
+--			https://github.com/channeladvisor/qdstoolbox/issues/38
 ----------------------------------------------------------------------------------
 
 CREATE OR ALTER VIEW [dbo].[vQDSCacheCleanupIndex]
@@ -98,11 +103,11 @@ SELECT
 	,[WaitStatsKBs]		
 	,[TestMode]	
 	,[CleanupParameters].value('(/Root/CleanupParameters/CleanAdhocStale)[1]','BIT')		AS [CleanAdhocStale]
-	,[CleanupParameters].value('(/Root/CleanupParameters/CleanStale)[1]','BIT')				AS [CleanStale]
-	,[CleanupParameters].value('(/Root/CleanupParameters/Retention)[1]','BIT')				AS [Retention]
-	,[CleanupParameters].value('(/Root/CleanupParameters/MinExecutionCount)[1]','BIT')		AS [MinExecutionCount]
+	,[CleanupParameters].value('(/Root/CleanupParameters/CleanStale)[1]','BIT')			AS [CleanStale]
+	,[CleanupParameters].value('(/Root/CleanupParameters/Retention)[1]','INT')			AS [Retention]
+	,[CleanupParameters].value('(/Root/CleanupParameters/MinExecutionCount)[1]','INT')		AS [MinExecutionCount]
 	,[CleanupParameters].value('(/Root/CleanupParameters/CleanOrphan)[1]','BIT')			AS [CleanOrphan]
 	,[CleanupParameters].value('(/Root/CleanupParameters/CleanInternal)[1]','BIT')			AS [CleanInternal]
-	,[CleanupParameters].value('(/Root/CleanupParameters/RetainForcedMetrics)[1]','BIT')	AS [RetainForcedMetrics]
+	,[CleanupParameters].value('(/Root/CleanupParameters/RetainForcedMetrics)[1]','BIT')		AS [RetainForcedMetrics]
 	,[CleanupParameters].value('(/Root/CleanupParameters/CleanStatsOnly)[1]','BIT')			AS [CleanStatsOnly]
 FROM [dbo].[QDSCacheCleanupIndex]
